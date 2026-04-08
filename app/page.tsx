@@ -1,6 +1,6 @@
 ﻿"use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 
 type FAQ = { q: string; a: string };
@@ -91,7 +91,7 @@ export default function Home() {
     { id: 3, name: maskName("Alisher Aliyev"), city: "Termiz", time: "8 soat oldin", initials: "AA" },
     { id: 4, name: maskName("Dilnoza Botirov"), city: "Buxoro", time: "5 soat oldin", initials: "DB" },
   ]);
-  const [nextId, setNextId] = useState(5);
+  const nextIdRef = useRef(5);
   const slots = useMemo(
     () => Array.from({ length: 17 }).map((_, i) => (i === 5 ? "blink" : i < 5 ? "filled" : "empty")),
     []
@@ -175,13 +175,13 @@ export default function Home() {
   useEffect(() => {
     const interval = setInterval(() => {
       setFeed((prev) => {
-        const item = makeFeedItem(nextId);
-        setNextId((n) => n + 1);
+        const id = nextIdRef.current++;
+        const item = makeFeedItem(id);
         return [item, ...prev].slice(0, 4);
       });
     }, 30 * 60 * 1000);
     return () => clearInterval(interval);
-  }, [nextId]);
+  }, []);
 
   const floatCTA = useMemo(
     () => (
@@ -223,13 +223,13 @@ export default function Home() {
         <div className="hero-body">
           <div className="hero-badge">
             <span className="badge-dot"></span>
-            Buyuk Britaniyaning Seasonal Work Scheme rasmiy dasturi
+            Seasonal Work Scheme rasmiy dasturi uchun <b>Toshkent shahrida intervyuga kirish kafolati </b>
           </div>
 
           <h1 className="heading-font">
             Angliyada ish —<br />
             <span className="accent">rasman</span>, atigi <span className="accent">$220</span>,<br />
-            <span className="accent-red">firibgarlarsiz</span>
+            <span className="accent-red">firibgarlarsiz yo'l</span>
           </h1>
 
           <p className="hero-sub">
@@ -687,7 +687,7 @@ export default function Home() {
 
           <div className="final-actions" id="bottom-cta">  
             <Link  
-              href="https://t.me/uksezon"  
+              href="https://t.me/seasonalworkUK_bot"  
               className="btn-big group relative inline-flex items-center gap-3 px-10 py-4 rounded-full bg-gradient-to-r from-[#16c75f] via-[#1fb45b] to-[#18b85b] text-white text-lg font-extrabold tracking-tight shadow-[0_12px_32px_rgba(24,184,91,0.45)] transition-all duration-200 ease-out hover:-translate-y-0.5 hover:shadow-[0_16px_44px_rgba(24,184,91,0.6)]"  
               target="_blank"  
               rel="noreferrer"  
